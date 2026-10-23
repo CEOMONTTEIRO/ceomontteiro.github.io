@@ -1,43 +1,44 @@
-# Mateus Monteiro — Entre lógica e forma
+# Mateus Monteiro — portfólio pessoal
 
-Portfólio pessoal de **Mateus Monteiro Ramos**, desenvolvedor fullstack júnior. Uma experiência original que aproxima código, design e visão de produto.
+**[Abrir o portfólio →](https://ceomontteiro.github.io/)**
 
-**[Visite o portfólio →](https://ceomontteiro.github.io/)**
+Um portfólio dark, direto e pessoal. Três páginas: **Início**, **Projetos** e **Sobre/Contato**.
 
 ## Experiência
 
-- Escultura 3D gerada matematicamente, com WebGL e Three.js.
-- Renderização alternativa em Canvas quando WebGL não está disponível.
-- Filme original de 6 segundos: o scroll controla o tempo; o mouse desloca a composição e a luz.
-- Laboratório com materiais, expressão, velocidade e pausa.
-- Layout para celular, tablet e desktop, navegação por teclado, movimento reduzido e temas claro/escuro.
-- Fine Form como estudo de produto. APISupplier e APIBuilder apresentados apenas como projetos anteriores, sem links para repositórios indisponíveis.
+- Retrato autoral em 2.5D: imagem com perspectiva e movimento por mola, acompanhando o mouse e o toque.
+- Vídeo ambiente original, com luz ciano e reprodução silenciosa. Pausa quando a aba fica oculta ou o movimento é reduzido.
+- React Bits: BlurText, Magnet e SpotlightCard, adaptados à composição.
+- Transições de página, navegação com indicador animado e abas acessíveis por teclado.
+- Fine Form em destaque. APISupplier e APIBuilder aparecem como experiências anteriores; os repositórios originais estão indisponíveis.
+- Layout responsivo, fontes locais e controle global de movimento.
 
-## Stack e arquitetura
+## Stack
 
-Next.js, React, TypeScript, CSS, Tailwind CSS e Three.js. Exportação estática para GitHub Pages, sem servidor de aplicação.
+**React · Next.js · TypeScript · CSS · Tailwind CSS · Motion**
 
-| Camada                     | Responsabilidade                                                   |
-| -------------------------- | ------------------------------------------------------------------ |
-| `src/domain`               | Identidade, projetos, tecnologias e matemática da escultura.       |
-| `src/application`          | Acesso ao conteúdo apresentado.                                    |
-| `src/infrastructure/webgl` | Renderizadores GPU e Canvas, ciclo de vida e descarte de recursos. |
-| `src/components`           | Interações e componentes de apresentação.                          |
-| `src/app`                  | Composição das páginas, estilos e metadados.                       |
-| `public/media`             | Foto autorizada, imagens e filme original.                         |
+Exportação estática para GitHub Pages. A arquitetura separa conteúdo, acesso aos dados e apresentação, sem exigir um servidor de aplicação.
 
-A separação em módulos permite evoluir conteúdo, apresentação e renderização de forma independente. Microserviços não são necessários para este portfólio estático: adicionariam uma operação de servidor sem uma necessidade de produto.
+| Diretório                   | Responsabilidade                                               |
+| --------------------------- | -------------------------------------------------------------- |
+| `src/domain`                | Informações pessoais, projetos, stacks e limites da interação. |
+| `src/application`           | Acesso ao conteúdo apresentado.                                |
+| `src/components`            | Navegação, projetos, contato e componentes reutilizáveis.      |
+| `src/components/experience` | Retrato, vídeo, texto e transições.                            |
+| `src/components/react-bits` | Componentes React Bits com avisos e licença preservados.       |
+| `src/app`                   | Três rotas, composição, metadados e estilos.                   |
+| `public/media`              | Imagens e vídeo servidos pelo próprio site.                    |
 
 ## Desenvolvimento
 
-Requer Node.js 24 ou superior.
+Node.js 24 ou superior.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-O ambiente local abre na porta `4173`. Para verificar e gerar a versão estática:
+O desenvolvimento usa a porta `4173`.
 
 ```sh
 npm test
@@ -45,12 +46,14 @@ npm run typecheck
 npm run build
 ```
 
-A saída fica em `out/`, incluindo `.nojekyll`. O workflow **Deploy portfolio to GitHub Pages** executa as verificações e publica a pasta pelo GitHub Actions. Novos commits de código na branch `main` atualizam o site.
+O build produz `out/`, adiciona `.nojekyll` e verifica as três rotas e os arquivos locais. O GitHub Actions publica essa pasta no GitHub Pages a cada atualização de código na branch `main`.
 
-## Conteúdo e mídia
+Edite `src/domain/portfolio.ts` para atualizar projetos, tecnologias e contato.
 
-Edite `src/domain/portfolio.ts` para atualizar informações, stacks e projetos. A fotografia pertence a Mateus; a imagem Fine Form registra o próprio projeto. A forma e o filme são derivados da mesma curva original definida em `src/domain/ribbon.ts`.
+## Mídia e créditos
 
-Para regenerar o filme, instale `sharp` no ambiente de desenvolvimento, disponibilize `ffmpeg` no PATH e execute `node scripts/render-film.mjs`. O site utiliza apenas o MP4 já produzido; essa etapa não faz parte do deploy.
+O retrato digital foi criado a partir das fotos de Mateus com a ferramenta de geração de imagens. A fotografia da página Sobre pertence a Mateus. O screenshot Fine Form registra seu próprio projeto. O vídeo foi criado por código, sem material de terceiros; pode ser regenerado com `node scripts/render-ambient.mjs` e `ffmpeg` instalado.
 
-Fontes Manrope e Instrument Serif distribuídas via Fontsource, com suas licenças nos pacotes. Fontes e mídia são servidas pelo próprio site. Sem analytics, trackers ou formulários que armazenem dados.
+React Bits por David Haz — [fonte oficial](https://github.com/DavidHDev/react-bits), [licença preservada](licenses/react-bits.md). Tipografia Manrope via Fontsource, com a licença incluída no pacote. A origem do retrato está documentada em [docs/visuals.md](docs/visuals.md).
+
+Sem analytics, cookies de rastreamento ou formulário que armazene dados. A preferência de movimento fica apenas no navegador.

@@ -1,31 +1,29 @@
 {
   "name": "mateus-monteiro-portfolio",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "Portfólio pessoal de Mateus Monteiro, com experiências WebGL e exportação estática para GitHub Pages.",
+  "description": "Portfólio pessoal de Mateus Monteiro. Dark, direto e interativo.",
   "engines": {
     "node": ">=24"
   },
   "scripts": {
     "dev": "node scripts/dev.mjs",
-    "build": "next build && node scripts/finalize-export.mjs",
+    "build": "next build && node scripts/finalize-export.mjs && node scripts/verify-export.mjs",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@fontsource-variable/manrope": "^5.2.0",
-    "@fontsource/instrument-serif": "^5.2.0",
     "next": "16.4.3",
     "react": "19.3.1",
     "react-dom": "19.3.1",
-    "three": "0.186.1"
+    "motion": "14.6.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@types/three": "^0.186.0",
     "postcss": "^8.5.6",
     "tailwindcss": "4.3.3",
     "typescript": "^5.9.3"

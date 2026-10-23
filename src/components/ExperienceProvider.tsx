@@ -7,67 +7,54 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { MotionConfig } from "motion/react";
 
 interface ExperienceSettings {
   motionEnabled: boolean;
   toggleMotion: () => void;
-  dark: boolean;
-  toggleTheme: () => void;
 }
-
 const SettingsContext = createContext<ExperienceSettings | null>(null);
 
 export function ExperienceProvider({ children }: { children: ReactNode }) {
   const [motionEnabled, setMotionEnabled] = useState(false);
-  const [dark, setDark] = useState(false);
-
   useEffect(() => {
-    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const savedMotion = localStorage.getItem("mm-motion");
-    setMotionEnabled(
-      savedMotion === null ? !preference.matches : savedMotion === "full",
-    );
-    setDark(localStorage.getItem("mm-theme") === "dark");
-    const updatePreference = () => {
-      if (localStorage.getItem("mm-motion") === null)
-        setMotionEnabled(!preference.matches);
-    };
-    preference.addEventListener("change", updatePreference);
-    return () => preference.removeEventListener("change", updatePreference);
+    const preference = matchMedia("(prefers-reduced-motion: reduce)");
+    let saved: string | null = null;
+    try {
+      saved = localStorage.getItem("mm-motion");
+    } catch {
+      /* Private browsing still works. */
+    }
+    setMotionEnabled(saved === null ? !preference.matches : saved === "full");
+    const synchronize = () => setMotionEnabled(!preference.matches);
+    preference.addEventListener("change", synchronize);
+    return () => preference.removeEventListener("change", synchronize);
   }, []);
-
   useEffect(() => {
     document.documentElement.dataset.motion = motionEnabled
       ? "full"
       : "reduced";
-    document.documentElement.dataset.theme = dark ? "dark" : "light";
-  }, [motionEnabled, dark]);
-
+  }, [motionEnabled]);
   function toggleMotion() {
     setMotionEnabled((current) => {
-      localStorage.setItem("mm-motion", current ? "reduced" : "full");
+      try {
+        localStorage.setItem("mm-motion", current ? "reduced" : "full");
+      } catch {
+        /* Session preference remains available. */
+      }
       return !current;
     });
   }
-
-  function toggleTheme() {
-    setDark((current) => {
-      localStorage.setItem("mm-theme", current ? "light" : "dark");
-      return !current;
-    });
-  }
-
   return (
-    <SettingsContext.Provider
-      value={{ motionEnabled, toggleMotion, dark, toggleTheme }}
-    >
-      {children}
+    <SettingsContext.Provider value={{ motionEnabled, toggleMotion }}>
+      <MotionConfig reducedMotion={motionEnabled ? "never" : "always"}>
+        {children}
+      </MotionConfig>
     </SettingsContext.Provider>
   );
 }
-
 export function useExperience() {
   const settings = useContext(SettingsContext);
-  if (!settings) throw new Error("ExperienceProvider é obrigatório.");
+  if (!settings) throw new Error("ExperienceProvider is required.");
   return settings;
 }

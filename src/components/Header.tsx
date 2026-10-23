@@ -1,89 +1,58 @@
 "use client";
 
-import { useState } from "react";
-import { Dialog } from "./Dialog";
-import { Mark, SunIcon } from "./icons";
-import { useExperience } from "./ExperienceProvider";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion } from "motion/react";
+import { Mark, ArrowIcon } from "./icons";
+import { identity } from "@/domain/portfolio";
 
 const links = [
-  { href: "#trabalhos", label: "Trabalhos" },
-  { href: "#sobre", label: "Sobre" },
-  { href: "#laboratorio", label: "Laboratório" },
+  { href: "/", label: "Início" },
+  { href: "/projetos/", label: "Projetos" },
+  { href: "/sobre/", label: "Sobre" },
 ];
-
 export function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { dark, toggleTheme } = useExperience();
-
+  const pathname = usePathname();
   return (
     <header className="site-header shell">
-      <a className="brand" href="#inicio" aria-label="Mateus Monteiro, início">
+      <Link href="/" className="brand" aria-label="Mateus Monteiro, início">
         <Mark />
         <span>
-          Mateus
-          <br />
-          <strong>Monteiro.</strong>
+          mateus<span className="brand-suffix">.dev</span>
         </span>
-      </a>
-      <nav className="desktop-nav" aria-label="Navegação principal">
-        {links.map((link) => (
-          <a href={link.href} key={link.href}>
-            {link.label}
-          </a>
-        ))}
+      </Link>
+      <nav className="navigation" aria-label="Navegação principal">
+        {links.map((link) => {
+          const active =
+            pathname === link.href ||
+            (link.href !== "/" && pathname === link.href.slice(0, -1));
+          return (
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`nav-link ${active ? "is-active" : ""}`}
+              aria-current={active ? "page" : undefined}
+            >
+              {active && (
+                <motion.span
+                  className="nav-pill"
+                  layoutId="nav-pill"
+                  transition={{ type: "spring", stiffness: 380, damping: 35 }}
+                />
+              )}
+              <span>{link.label}</span>
+            </Link>
+          );
+        })}
       </nav>
-      <div className="header-actions">
-        <button
-          className="icon-button theme-button"
-          onClick={toggleTheme}
-          aria-label={dark ? "Usar ambiente claro" : "Usar ambiente escuro"}
-          aria-pressed={dark}
-        >
-          <SunIcon />
-        </button>
-        <a href="#contato" className="header-contact">
-          Vamos conversar <span className="status-dot" aria-hidden="true" />
-        </a>
-        <button
-          className="menu-button"
-          onClick={() => setMenuOpen(true)}
-          aria-label="Abrir menu"
-          aria-expanded={menuOpen}
-        >
-          <span />
-          <span />
-        </button>
-      </div>
-      <Dialog
-        open={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        titleId="menu-title"
-        className="mobile-menu"
+      <a
+        className="header-contact"
+        href={`mailto:${identity.email}`}
+        aria-label="Conversar com Mateus por e-mail"
       >
-        <span className="eyebrow" id="menu-title">
-          POR ONDE VAMOS?
-        </span>
-        <nav aria-label="Navegação no celular">
-          {[...links, { href: "#contato", label: "Contato" }].map(
-            (link, index) => (
-              <a
-                href={link.href}
-                key={link.href}
-                onClick={() => setMenuOpen(false)}
-              >
-                <span className="mono">0{index + 1}</span>
-                {link.label}
-                <span aria-hidden="true">↗</span>
-              </a>
-            ),
-          )}
-        </nav>
-        <p>
-          São Paulo, Brasil.
-          <br />
-          Ideias abertas ao mundo.
-        </p>
-      </Dialog>
+        <span>Vamos conversar</span>
+        <ArrowIcon />
+      </a>
     </header>
   );
 }

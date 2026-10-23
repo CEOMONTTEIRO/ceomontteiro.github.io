@@ -1,4 +1,4 @@
-export type ProjectId = "fine-form" | "portfolio";
+export type ProjectId = "fine-form";
 
 export interface Project {
   id: ProjectId;
@@ -47,22 +47,6 @@ export const projects: readonly Project[] = [
       "Plataforma própria em preparação para a inauguração do negócio. O projeto reúne interface, catálogo de serviços, acompanhamento privado e organização da operação.",
     url: "https://fine-form-3-0.fineformcare.workers.dev/",
     repository: "https://github.com/fineform-detailing/fineform-detailing",
-  },
-  {
-    id: "portfolio",
-    number: "02",
-    name: "Entre lógica e forma",
-    category: "Desenvolvimento criativo & interação",
-    summary: "Um espaço para ideias ganharem movimento.",
-    tags: ["Next.js + React", "WebGL / Three.js", "GitHub Pages"],
-    challenge:
-      "Apresentar meu trabalho com personalidade, sem tornar a navegação pesada ou difícil no celular.",
-    approach:
-      "Conteúdo estático, componentes reutilizáveis e uma camada visual independente. A forma tridimensional é gerada por código, reage à interação e desacelera quando o movimento é reduzido.",
-    delivery:
-      "O portfólio que você está explorando: uma experiência original com laboratório 3D, filme visual e atenção à leitura, ao teclado e a diferentes telas.",
-    url: "https://ceomontteiro.github.io/",
-    repository: "https://github.com/CEOMONTTEIRO/ceomontteiro.github.io",
   },
 ];
 
