@@ -1,0 +1,21 @@
+name: Import dark portfolio revision
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Replace previous portfolio with reviewed dark revision
+        run: |
+          test -f portfolio-dark-source.tar.gz
+          git rm -r -- src public scripts tests
+          tar -xzf portfolio-dark-source.tar.gz
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src public scripts tests licenses docs README.md package.json package-lock.json next.config.ts next-env.d.ts postcss.config.mjs tsconfig.json .gitignore
+          git rm portfolio-dark-source.tar.gz
+          git commit -m "feat: dark three-page personal portfolio with React Bits and interactive portrait"
+          git push
