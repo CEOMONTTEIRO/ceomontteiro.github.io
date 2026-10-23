@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ceomontteiro.github.io/sitemap.xml

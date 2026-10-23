@@ -1,0 +1,8 @@
+node_modules/
+.next/
+out/
+.openai/
+.pnpm-store/
+*.tsbuildinfo
+.env*
+!.env.example
